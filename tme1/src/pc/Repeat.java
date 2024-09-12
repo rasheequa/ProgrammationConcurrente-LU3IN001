@@ -3,11 +3,13 @@ package pc;
 public class Repeat {
 
 	public static String repeat(char c, int n) {
-		String s = "";
+		StringBuilder s = new StringBuilder();
 		for (int i = 0; i < n; i++) {
-			s += c;
+			s.append(c);
 		}
-		return s;
+		
+		return s.toString();
 	}
-	
+		
 }
+	

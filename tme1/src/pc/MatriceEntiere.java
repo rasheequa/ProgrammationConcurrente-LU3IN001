@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+import pc.test.TaillesNonConcordantesException;
+
 public class MatriceEntiere {
 	private int [][] matrice;
 	
@@ -91,19 +93,50 @@ public class MatriceEntiere {
 		 return false;
 	 }
 	 
-	 public MatriceEntiere ajoute(MatriceEntiere m) throws TaillesNonConcordantes{
+	 public MatriceEntiere ajoute(MatriceEntiere m) throws TaillesNonConcordantesException{
 		 if(this.nbLignes()!= ( m.nbLignes())){
-	            throw new TaillesNonConcordantes("Les tailles ne concordent pas : "+this.nbLignes()+" != "+m.nbLignes());
+	            throw new TaillesNonConcordantesException("Les dimensions ne sont pas concordantes : "+this.nbLignes()+" != "+m.nbLignes());
 	        }
 		 
-		 MatriceEntiere add = new MatriceEntiere(this.nbLignes(),this.nbLignes());
+		 MatriceEntiere mat = new MatriceEntiere(this.nbLignes(),this.nbLignes());
 		 
 		 for(int i = 0; i<m.matrice.length;i++) {
 				for(int j = 0; j<m.matrice[i].length;j++) {
-						add.matrice[i][j]=m.matrice[i][j]+this.matrice[i][j] ;
+						mat.matrice[i][j]=m.matrice[i][j]+this.matrice[i][j] ;
 				}			
 		 }
-		 return add;
+		 return mat;
+	 }
+	 
+	 public MatriceEntiere produit(MatriceEntiere m) throws TaillesNonConcordantesException{
+		 
+		 if(this.nbColonnes()!= ( m.nbLignes())){
+	            throw new TaillesNonConcordantesException("Les dimensions ne sont pas concordantes : "+this.nbLignes()+" != "+m.nbColonnes());
+	        }
+		 
+		 MatriceEntiere mat = new MatriceEntiere(this.nbLignes(),this.nbLignes());
+		 int sum = 0, j=0;
+		 for(int k=0; k<m.matrice.length;k++) {
+			 for(int i = 0; i<m.matrice.length;i++) {
+				 for(j = 0; j<m.matrice.length;j++) {
+					sum += this.matrice[i][k] * m.matrice[k][j] ;
+				 }
+			 mat.matrice[i][j]=sum;
+			 }
+		 }
+		 return mat;
+	 }
+	 
+	 public MatriceEntiere transposee() {
+		 
+		 MatriceEntiere mat = new MatriceEntiere(this.nbLignes(),this.nbLignes());
+		
+		 for(int i = 0; i<this.matrice.length;i++){
+			 for(int j = 0; j<this.matrice.length;j++){
+				mat.matrice[i][j] = this.matrice[j][i];
+			 } 
+		 }
+		 return mat;
 	 }
 	
 }
