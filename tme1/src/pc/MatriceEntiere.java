@@ -5,18 +5,16 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-import pc.test.TaillesNonConcordantesException;
 
 public class MatriceEntiere {
 	private int [][] matrice; // matrice à deux dimensions
 	
 	public MatriceEntiere(int ligne, int colonne) {
 		
-		matrice = new int [ligne][]; // Crée un tableau d'entiers
+		matrice = new int [ligne][colonne]; // Crée un tableau d'entiers
         
 		// Initialise chaque ligne de la matrice et la remplit avec des zéros
 		for(int i = 0; i<nbLignes();i++) {
-			matrice[i]= new int [colonne]; 
 			for(int j = 0; j<nbColonnes();j++) {
 				setElem(i,j,0);
 			}				
@@ -48,9 +46,8 @@ public class MatriceEntiere {
 		 try (BufferedReader in = new BufferedReader ( new FileReader(fichier))){
 
 			 // Lit le nombre de lignes et de colonnes depuis le fichier
-			 String nbligStr = in.readLine();
-			 int nblig = Integer.parseInt(nbligStr);
-			 int nbcol = Integer.parseInt (in.readLine());
+			 int nblig = Integer.parseInt(in.readLine());
+		     int nbcol = Integer.parseInt(in.readLine());
 			 
 			 // Crée une nouvelle matrice avec ces dimensions
 			 MatriceEntiere mat = new MatriceEntiere(nblig,nbcol);
@@ -59,8 +56,9 @@ public class MatriceEntiere {
 			 for(int i = 0; i < nblig; i++) {
 				 String line = in.readLine();
 				 String[] word = line.split(" ");
+				 
 				 for(int j = 0; j<nbcol; j++) {
-					 mat.setElem(i,j, Integer.parseInt(word[j]));
+					 mat.setElem(i, j, Integer.parseInt(word[j]));
 				 }
 			 }
 			return mat;
@@ -90,7 +88,7 @@ public class MatriceEntiere {
 		 
 		 if (o instanceof MatriceEntiere) {
 			 // Vérifie si les matrices ont le même nombre de lignes
-			 if (this.nbLignes()!= ((MatriceEntiere) o).nbLignes()) return false;
+			 if (this.nbLignes()!= ((MatriceEntiere) o).nbLignes()||this.nbColonnes()!= ((MatriceEntiere) o).nbColonnes()) return false;
 			 
 			 // Compare chaque élément des deux matrices
 			 for(int i = 0; i<this.nbLignes();i++) {
@@ -107,11 +105,11 @@ public class MatriceEntiere {
 	 
 	// Méthode pour additionner deux matrices, lève une exception si les tailles ne correspondent pas
 	 public MatriceEntiere ajoute(MatriceEntiere m) throws TaillesNonConcordantesException{
-		 if(this.nbLignes()!=( m.nbLignes())){
-	            throw new TaillesNonConcordantesException("Les dimensions ne sont pas concordantes : "+this.nbLignes()+" != "+m.nbLignes());
+		 if(this.nbLignes()!=( m.nbLignes())||this.nbColonnes()!=( m.nbColonnes())){
+	            throw new TaillesNonConcordantesException("Les dimensions ne sont pas concordantes");
 	        }
 		// Crée une nouvelle matrice pour stocker le résultat de l'addition
-		 MatriceEntiere mat = new MatriceEntiere(this.nbLignes(),this.nbLignes());
+		 MatriceEntiere mat = new MatriceEntiere(this.nbLignes(),this.nbColonnes());
 		 
 		// Additionne les éléments correspondants des deux matrices
 		 for(int i = 0; i<m.nbLignes();i++) {
@@ -130,14 +128,14 @@ public class MatriceEntiere {
 	        }
 		 
 		// Crée une nouvelle matrice pour stocker le résultat du produit
-		 MatriceEntiere mat = new MatriceEntiere(this.nbLignes(),this.nbLignes());
-		 int sum = 0, j=0;
+		 MatriceEntiere mat = new MatriceEntiere(this.nbLignes(),m.nbColonnes());
+		 int sum = 0, k=0;
 		 
 		// Calcule le produit matriciel
-		 for(int k=0; k<m.nbLignes();k++) {
-			 for(int i = 0; i<m.nbLignes();i++) {
-				 for(j = 0; j<m.nbColonnes();j++) {
-					sum += this.getElem(i,j) * m.getElem(i,j) ;
+		 for(int i=0; i<this.nbLignes();i++) {
+			 for(int j = 0; j<m.nbColonnes();j++) {
+				 for(k = 0; k<this.nbColonnes();k++) {
+					sum += this.getElem(i,k) * m.getElem(k,j) ;
 				 }
 			 mat.setElem(i,j,sum);
 			 }
@@ -148,12 +146,12 @@ public class MatriceEntiere {
 	// Méthode pour obtenir la transposée d'une matrice
 	 public MatriceEntiere transposee() {
 		 
-		 MatriceEntiere mat = new MatriceEntiere(this.nbLignes(),this.nbLignes());
+		 MatriceEntiere mat = new MatriceEntiere(this.nbColonnes(),this.nbLignes());
 		
 		 // Intervertit les lignes et les colonnes
 		 for(int i = 0; i<this.nbLignes();i++){
 			 for(int j = 0; j<this.nbColonnes();j++){
-				mat.setElem(i,j,this.getElem(i,j));
+				mat.setElem(j,i,this.getElem(i,j));
 			 } 
 		 }
 		 return mat;
