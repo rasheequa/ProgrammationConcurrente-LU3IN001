@@ -1,4 +1,4 @@
-package pc.countwords;
+package pc;
 
 @SuppressWarnings("serial")
 public class TaillesNonConcordantesException extends Exception {

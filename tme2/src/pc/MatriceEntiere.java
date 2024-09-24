@@ -1,4 +1,4 @@
-package pc.countwords;
+package pc;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -107,6 +107,49 @@ public class MatriceEntiere extends Thread {
 		 
 		// Crée une nouvelle matrice pour stocker le résultat du produit
 		 MatriceEntiere mat = new MatriceEntiere(this.nbLignes(),m.nbColonnes());
+		 
+		 Thread [] th = new Thread[nbLignes()];
+		 
+		// Calcule le produit matriciel
+		 for(int i=0; i<this.nbLignes();i++) {
+			 
+			 final int ligne = i;
+			 
+			 th[i]= new Thread(()->{
+				 
+				 for(int j = 0; j<m.nbColonnes();j++) {
+					 int sum=0;
+					 for(int k = 0; k<this.nbColonnes();k++) {
+						sum += this.getElem(ligne,k) * m.getElem(k,j) ;
+					 }
+				 mat.setElem(ligne,j,sum);
+				 }
+			 });
+			 
+			th[i].start();
+		 }
+		 
+		 for (int j = 0; j < this.nbLignes(); j++) {
+				try {
+					th[j].join();
+					
+				} catch (InterruptedException e) {
+			        e.printStackTrace();
+			    }
+			}
+		 
+		 return mat;
+	 }
+	 
+		// Méthode pour multiplier deux matrices, lève une exception si les tailles ne correspondent pas
+	 public MatriceEntiere produit(MatriceEntiere m) throws TaillesNonConcordantesException{
+		 
+		 if(this.nbColonnes()!= ( m.nbLignes())){
+	            throw new TaillesNonConcordantesException("Les dimensions ne sont pas concordantes : "+this.nbLignes()+" != "+m.nbColonnes());
+	        }
+		 
+		// Crée une nouvelle matrice pour stocker le résultat du produit
+		 MatriceEntiere mat = new MatriceEntiere(this.nbLignes(),m.nbColonnes());
 		 int sum = 0, k=0;
 		 
 		// Calcule le produit matriciel
@@ -116,6 +159,7 @@ public class MatriceEntiere extends Thread {
 					sum += this.getElem(i,k) * m.getElem(k,j) ;
 				 }
 			 mat.setElem(i,j,sum);
+			 sum=0;
 			 }
 		 }
 		 return mat;
@@ -131,8 +175,7 @@ public class MatriceEntiere extends Thread {
 			 } 
 			 s += "\n"; // Retour à la ligne apres le parcours d'une colonne
 		 }
-		 
-		  
+
 		 return s;
 	 }
 	
