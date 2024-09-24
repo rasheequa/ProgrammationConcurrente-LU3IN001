@@ -22,7 +22,6 @@ public class TestMatriceEntiere {
 		// -------------------- Test initialisation et affichage
 
 		try {
-			MatriceEntiere m1 = MatriceEntiere.parseMatrix(new File("data/donnees_somme1"));
 
 			MatriceEntiere m2 = MatriceEntiere.parseMatrix(new File("data/donnees_produit1"));
 
@@ -30,12 +29,6 @@ public class TestMatriceEntiere {
 			
 			MatriceEntiere m4 = MatriceEntiere.parseMatrix(new File("data/donnees_produit2"));
 			
-
-			// utilise toString
-			System.out.println("------------------ matrice 1 ------------------\n" + m1);
-			System.out.println("------------------ matrice 2 ------------------\n" + m2);
-
-
 
 			// -------------------- Test produit scalaire
 			{
@@ -51,8 +44,16 @@ public class TestMatriceEntiere {
 			// -------------------- Test produit
 			System.out.println("------------------ Test produit 1 ------------------");
 			System.out.println(m2.toString() + "*\n" + m4.toString() + "=\n");
+			
+			long start = System.nanoTime();
+			long end;
+			long time=0;
+			long timeMT = 0;
 			try {
 				MatriceEntiere mat = m2.produit(m4);
+				end = System.nanoTime();
+				time = end - start;  // temps mis par la fonction produit
+				System.out.println("Temps écoulé produit : " + time + " ns\n");
 				assertEquals(5, mat.nbLignes());
 				assertEquals(8, mat.nbColonnes());
 				int[] tab = { -171, 64, -367, -196, 9, 73, -36, 72, -359, 160, -763, -360, -15, 201, -116, 200, -547,
@@ -77,8 +78,13 @@ public class TestMatriceEntiere {
 			// -------------------- Test produit thread
 			System.out.println("------------------ Test produit thread 1 ------------------");
 			System.out.println(m2.toString() + "*\n" + m4.toString() + "=\n");
+			
+			start = System.nanoTime();
 			try {
 				MatriceEntiere mat = m2.produitMT(m4);
+				end = System.nanoTime();
+				timeMT = end - start;  // temps mis par la fonction produitMT
+				System.out.println("Temps écoulé produitMT : " + timeMT + " ns\n");
 				assertEquals(5, mat.nbLignes());
 				assertEquals(8, mat.nbColonnes());
 				int[] tab = { -171, 64, -367, -196, 9, 73, -36, 72, -359, 160, -763, -360, -15, 201, -116, 200, -547,
@@ -86,10 +92,15 @@ public class TestMatriceEntiere {
 						-1951, -852, -87, 585, -356, 584 };
 				checkValues(tab, mat);
 				System.out.println(mat);
+				
 			} catch (TaillesNonConcordantesException e) {
 				System.out.println(e.getMessage());
 				fail("Exception non attendue");
 			}
+			
+			System.out.println("TimeMT < Time : "+(timeMT < time));
+			//assertTrue(timeMT < time);
+			
 			System.out.println("------------------ Test produit thread 2 ------------------");
 			System.out.println(m2.toString() + "*\n" + m3.toString() + "=\n");
 			try {
@@ -107,13 +118,6 @@ public class TestMatriceEntiere {
 		}
 	}
 
-	public void testSerialisation(MatriceEntiere mat) throws FileNotFoundException, IOException {
-		FileOutputStream fos = new FileOutputStream(new File("data/test1"));
-		fos.write(mat.toString().getBytes());
-		fos.close();
-		MatriceEntiere mat2 = MatriceEntiere.parseMatrix(new File("data/test1"));
-		assertTrue(mat.equals(mat2));
-	}
 
 	private void checkValues(int[] tab, MatriceEntiere mat) {
 		for (int i = 0; i < mat.nbLignes() * mat.nbColonnes(); i++) {
