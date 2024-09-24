@@ -69,19 +69,6 @@ public class MatriceEntiere {
 		 
 	 }
 	 
-	 // Retourne une représentation de la matrice sous forme de chaîne de caractères
-	 public String toString() {
-		 String s = "";
-		 for(int[] mat : matrice) { // Parcours les lignes de la matrice
-			 for(int val : mat) { // Parcours les colonnes de la matrice
-				 s+= val+" "; 
-			 } 
-			 s += "\n"; // Retour à la ligne apres le parcours d'une colonne
-		 }
-		  
-		 return s;
-	 }
-	 
 	// Méthode equals pour comparer deux matrices
 	 public boolean equals(Object o) {
 		 if (this == o) return true;
@@ -138,6 +125,7 @@ public class MatriceEntiere {
 					sum += this.getElem(i,k) * m.getElem(k,j) ;
 				 }
 			 mat.setElem(i,j,sum);
+			 sum=0;
 			 }
 		 }
 		 return mat;
@@ -156,5 +144,20 @@ public class MatriceEntiere {
 		 }
 		 return mat;
 	 }
+	 
+	// Retourne une représentation de la matrice sous forme de chaîne de caractères
+	 public String toString() {
+		 
+		 String s = nbLignes() +"\n"+ nbColonnes()+"\n";
+		 for(int[] mat : matrice) { // Parcours les lignes de la matrice
+			 for(int val : mat) { // Parcours les colonnes de la matrice
+				 s+= val+" "; 
+			 } 
+			 s += "\n"; // Retour à la ligne apres le parcours d'une colonne
+		 }
+
+		 return s;
+	 }
+			 
 	
 }
