@@ -1,11 +1,9 @@
 package pc;
-import pc.IList;
 import pc.iter.SimpleList;
 import pc.iter.SimpleListSync;
 import pc.rec.SimpleListRec;
 import pc.rec.SimpleListRecSync;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 import java.util.ArrayList;
