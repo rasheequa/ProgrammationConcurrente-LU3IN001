@@ -2,6 +2,7 @@ package pc.iter;
 
 import pc.IList;
 
+
 public class SimpleList<T> implements IList<T>{
 	private Chainon<T> head; // Premier élément de la liste
 
@@ -60,6 +61,16 @@ public class SimpleList<T> implements IList<T>{
 		head = null;
 		// NB : grace au gc, les éléments de la liste sont supprimés
 		// dans d'autres langages, il faudrait les supprimer un par un (e.g. C++)
+	}
+	
+	public String toString() {
+		StringBuilder s = new StringBuilder("[");
+		
+		for(Chainon<T> cur=head; cur!=null;cur=cur.next) {
+				s.append(cur.data+", ");
+		}
+		s.append("]");
+		return s.toString();
 	}
 
 }
