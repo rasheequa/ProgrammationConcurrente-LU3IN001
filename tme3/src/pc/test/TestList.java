@@ -12,30 +12,56 @@ import org.junit.jupiter.api.Test;
 
 import pc.IList;
 import pc.iter.SimpleList;
+import pc.iter.SimpleListFine;
+import pc.iter.SimpleListSync;
 import pc.rec.SimpleListRec;
+import pc.rec.SimpleListRecFine;
+import pc.rec.SimpleListRecSync;
 
 public class TestList {
 
+//	@Test
+//	public void testSimpleList() {
+//		IList<String> list = new SimpleList<>();
+//
+//		runConcurrentTest(list, 10, 1000);
+//	}
+
+//	@Test
+//	public void testSimpleListRec() {
+//		IList<String> list = new SimpleListRec<>();
+//
+//		runConcurrentTest(list, 10, 1000);
+//	}
+	
 	@Test
-	public void testSimpleList() {
-		IList<String> list = new SimpleList<>();
+	public void testSimpleListSync() {
+		IList<String> list = new SimpleListSync<>();
 
 		runConcurrentTest(list, 10, 1000);
 	}
 
 	@Test
-	public void testSimpleListRec() {
-		IList<String> list = new SimpleListRec<>();
+	public void testSimpleListRecSync() {
+		IList<String> list = new SimpleListRecSync<>();
 
 		runConcurrentTest(list, 10, 1000);
 	}
 	
 	@Test
-	public void testClear() {
-		IList<String> list = new SimpleListRec<>();
+	public void testSimpleListFine() {
+		IList<String> list = new SimpleListFine<>();
 
-		ClearTask(list);
+		runConcurrentTest(list, 10, 1000);
 	}
+
+	@Test
+	public void testSimpleListRecFine() {
+		IList<String> list = new SimpleListRecFine<>();
+
+		runConcurrentTest(list, 10, 1000);
+	}
+	
 
 	public static void testList(IList<String> list) {
 		// Tests des versions itératives
@@ -145,21 +171,6 @@ public class TestList {
 
 	}
 	
-	static class ClearTask implements Runnable {
-		private final IList<String> list;
- 
-        
-        public ClearTask(IList<String> list) {
-        	this.list = list;
-        }
-        
-		@Override
-		public void run() {
-			list.clear();
-
-		}
-
-	}
 
 }
 

@@ -61,5 +61,16 @@ public class SimpleListSync<T> implements IList<T>{
 		// NB : grace au gc, les éléments de la liste sont supprimés
 		// dans d'autres langages, il faudrait les supprimer un par un (e.g. C++)
 	}
-
+	
+	public synchronized String toString() {
+		StringBuilder s = new StringBuilder("[");
+		
+		for(Chainon<T> cur=head; cur!=null;cur=cur.next) {
+			synchronized(this) {
+				s.append(cur.data+", ");
+			}
+		}
+		s.append("]");
+		return s.toString();
+	}
 }
