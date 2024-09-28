@@ -51,7 +51,19 @@ public class SimpleListRecFine<T> implements IList<T> {
 					return 1+next.size();
 				}
 			}
-		} 
+		}
+		
+		public void toString(StringBuilder s) {
+			synchronized(this) {
+				if(next!=null) {
+					s.append(data).append(",");
+					next.toString(s);
+				}
+				else {
+					s.append(data);
+				}
+			}
+		}
 	}
 	
 		@Override
@@ -101,6 +113,16 @@ public class SimpleListRecFine<T> implements IList<T> {
 		// TODO Auto-generated method stub
 		synchronized(this) {
 			head=null;	
+		}
+	}
+	
+	public String toString() {
+		synchronized(this){
+			StringBuilder s = new StringBuilder("[");
+			if(head!=null) {
+				head.toString(s);
+			}
+		return s.append("]").toString();
 		}
 	}
 

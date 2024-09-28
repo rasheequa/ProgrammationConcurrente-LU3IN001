@@ -39,6 +39,17 @@ public class SimpleListRec<T> implements IList<T> {
 				next.add(element);
 			}
 		}
+		
+		public void toString(StringBuilder s) {
+			if(next!=null) {
+				s.append(data).append(",");
+				next.toString(s);
+			}
+			else {
+				s.append(data);
+			}
+		}
+
 
 	}
 
@@ -68,6 +79,14 @@ public class SimpleListRec<T> implements IList<T> {
 		} else {
 			head.add(element);
 		}
+	}
+	
+	public String toString() {
+		StringBuilder s = new StringBuilder("[");
+		if(head!=null) {
+			head.toString(s);
+		}
+		return s.append("]").toString();
 	}
 
 }
