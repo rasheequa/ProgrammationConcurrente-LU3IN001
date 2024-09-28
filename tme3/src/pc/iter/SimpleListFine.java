@@ -90,14 +90,20 @@ public class SimpleListFine<T> implements IList<T> {
 	}
 	
 	public String toString() {
-		StringBuilder s = new StringBuilder("[");
-		
-		for(Chainon<T> cur=head; cur!=null;cur=cur.next) {
-			synchronized(this) {
-				s.append(cur.data+", ");
-			}
-		}
-		s.append("]");
-		return s.toString();
+	    StringBuilder s = new StringBuilder("[");
+	    
+	    for (Chainon<T> cur = head; cur != null; cur = cur.next) {
+	        synchronized (cur) {  // Synchronisation sur le chaînon courant
+	            s.append(cur.data);  // Ajoute l'élément actuel
+	        }
+
+	        // Vérifie si cur.next n'est pas null seulement après avoir mis à jour cur
+	        if (cur.next != null) {  
+	            s.append(", ");
+	        }
+	    }
+	    
+	    s.append("]");  // Ferme la liste
+	    return s.toString();
 	}
 }

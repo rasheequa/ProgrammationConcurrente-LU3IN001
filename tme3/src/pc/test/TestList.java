@@ -24,43 +24,43 @@ public class TestList {
 	
 	@Test
 	public void testSimpleList() {
+		System.out.print("----------------SimpleListe<>()----------------\n");
 		IList<String> list = new SimpleList<>();
-
 		runConcurrentTest(list, N, M);
 	}
 
 	@Test
 	public void testSimpleListRec() {
+		System.out.print("----------------SimpleListeRec<>()----------------\n");
 		IList<String> list = new SimpleListRec<>();
-
 		runConcurrentTest(list, N, M);
 	}
 	
 	@Test
 	public void testSimpleListSync() {
+		System.out.print("----------------SimpleListeSync<>()----------------\n");
 		IList<String> list = new SimpleListSync<>();
-
 		runConcurrentTest(list, N, M);
 	}
 
 	@Test
 	public void testSimpleListRecSync() {
+		System.out.print("----------------SimpleListeRecSync<>()----------------\n");
 		IList<String> list = new SimpleListRecSync<>();
-
 		runConcurrentTest(list, N, M);
 	}
 	
 	@Test
 	public void testSimpleListFine() {
+		System.out.print("----------------SimpleListeFine<>()----------------\n");
 		IList<String> list = new SimpleListFine<>();
-
 		runConcurrentTest(list, N, M);
 	}
 
 	@Test
 	public void testSimpleListRecFine() {
+		System.out.print("----------------SimpleListeRecFine<>()----------------\n");
 		IList<String> list = new SimpleListRecFine<>();
-
 		runConcurrentTest(list, N, M);
 	}
 	
@@ -75,6 +75,9 @@ public class TestList {
 		assertEquals(true, list.contains("World"));
 		assertEquals(false, list.contains("Master"));
 		
+		// Affichage du contenu de la liste
+	    System.out.println("Contenu de la liste : " + list.toString());
+	    
 		list.clear();
 		assertEquals(0, list.size());
 		System.out.println("Taille après clear : " + list.size());
@@ -105,7 +108,7 @@ public class TestList {
 				e.printStackTrace();
 			}
 		}
-
+		
 		// Check that the list size is N * M
 		assertEquals(N * M, list.size());
 		
@@ -126,12 +129,12 @@ public class TestList {
                 e.printStackTrace();
             }
         }
-        
-		// assertEquals("List size should be N * M", N * M, list.size());
-		assertEquals(N*M,list.size());
 
 		long endTime = System.currentTimeMillis();
 		System.out.println("Test completed in " + (endTime - startTime) + " milliseconds");
+		
+		// assertEquals("List size should be N * M", N * M, list.size());
+		assertEquals(N*M,list.size());
 	}
 
 	// TODO support pour les threads
@@ -149,7 +152,7 @@ public class TestList {
 			for(int j = 0; j<M;j++) {
 				list.add(Integer.toString(j));
 			}
-			
+		
 		}
 
 	}
