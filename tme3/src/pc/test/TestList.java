@@ -19,47 +19,49 @@ import pc.rec.SimpleListRecFine;
 import pc.rec.SimpleListRecSync;
 
 public class TestList {
+	public static int N = 10;
+	public static int M = 10;
+	
+	@Test
+	public void testSimpleList() {
+		IList<String> list = new SimpleList<>();
 
-//	@Test
-//	public void testSimpleList() {
-//		IList<String> list = new SimpleList<>();
-//
-//		runConcurrentTest(list, 10, 1000);
-//	}
+		runConcurrentTest(list, N, M);
+	}
 
-//	@Test
-//	public void testSimpleListRec() {
-//		IList<String> list = new SimpleListRec<>();
-//
-//		runConcurrentTest(list, 10, 1000);
-//	}
+	@Test
+	public void testSimpleListRec() {
+		IList<String> list = new SimpleListRec<>();
+
+		runConcurrentTest(list, N, M);
+	}
 	
 	@Test
 	public void testSimpleListSync() {
 		IList<String> list = new SimpleListSync<>();
 
-		runConcurrentTest(list, 10, 1000);
+		runConcurrentTest(list, N, M);
 	}
 
 	@Test
 	public void testSimpleListRecSync() {
 		IList<String> list = new SimpleListRecSync<>();
 
-		runConcurrentTest(list, 10, 1000);
+		runConcurrentTest(list, N, M);
 	}
 	
 	@Test
 	public void testSimpleListFine() {
 		IList<String> list = new SimpleListFine<>();
 
-		runConcurrentTest(list, 10, 1000);
+		runConcurrentTest(list, N, M);
 	}
 
 	@Test
 	public void testSimpleListRecFine() {
 		IList<String> list = new SimpleListRecFine<>();
 
-		runConcurrentTest(list, 10, 1000);
+		runConcurrentTest(list, N, M);
 	}
 	
 
