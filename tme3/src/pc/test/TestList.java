@@ -129,7 +129,23 @@ public class TestList {
                 e.printStackTrace();
             }
         }
-
+        
+        threads.clear();
+        
+//        for (int i = 0; i < N; i++) {
+//            Thread t = new Thread(new ConcurrentAccessTask(list, M));
+//            threads.add(t);
+//            t.start();
+//        }
+//
+//        for (Thread t : threads) {
+//            try {
+//                t.join();
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
+        
 		long endTime = System.currentTimeMillis();
 		System.out.println("Test completed in " + (endTime - startTime) + " milliseconds");
 		
@@ -176,6 +192,25 @@ public class TestList {
 
 	}
 	
-
+	static class ConcurrentAccessTask implements Runnable {
+        private final IList<String> list;
+        private final int M;
+        
+        public ConcurrentAccessTask(IList<String> list, int M) {
+            this.list = list;
+            this.M = M;
+        }
+        
+        @Override
+        public void run() {
+            for (int j = 0; j < M; j++) {
+                String element = Integer.toString(j);
+                assertTrue(list.contains(element));
+                list.add(element);
+            }
+        }
+        
+    }
 }
+
 
